@@ -83,4 +83,7 @@ public class ST_Point extends ST_Geometry {
 			return null;
 		}
 	}
+	public BytesWritable suchGetPoint(Text wkwrap) throws UDFArgumentException {
+		return evaluate(wkwrap);
+	}
 }

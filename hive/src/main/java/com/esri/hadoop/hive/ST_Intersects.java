@@ -20,7 +20,7 @@ public class ST_Intersects extends ST_GeometryRelational {
 		return OperatorIntersects.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s intersects %s", args[0], args[1]);
 	}

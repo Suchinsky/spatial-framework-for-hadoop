@@ -88,4 +88,6 @@ public class ST_Polygon extends ST_Geometry {
 			return null;
 		}
 	}
+
+
 }

@@ -20,7 +20,7 @@ public class ST_Disjoint extends ST_GeometryRelational {
 		return OperatorDisjoint.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s and %s are disjoint", args[0], args[1]);
 	}

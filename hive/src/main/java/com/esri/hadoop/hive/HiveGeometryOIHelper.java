@@ -135,7 +135,7 @@ public class HiveGeometryOIHelper {
 	// always assume bytes are reused until we determine they aren't
 	private boolean bytesReused = true; 
 	
-	private OGCGeometry getGeometryFromBytes(BytesWritable writable) {
+	public OGCGeometry getGeometryFromBytes(BytesWritable writable) {
 		
 		if (bytesReused) {
 			if (last != null && last != writable) {

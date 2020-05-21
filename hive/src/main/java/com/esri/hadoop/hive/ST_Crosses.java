@@ -16,11 +16,11 @@ import com.esri.core.geometry.OperatorSimpleRelation;
 public class ST_Crosses extends ST_GeometryRelational {
 
 	@Override
-	protected OperatorSimpleRelation getRelationOperator() {
+	public OperatorSimpleRelation getRelationOperator() {
 		return OperatorCrosses.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s crosses %s", args[0], args[1]);
 	}

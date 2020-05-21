@@ -20,7 +20,7 @@ public class ST_Touches extends ST_GeometryRelational {
 		return OperatorTouches.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s touches %s", args[0], args[1]);
 	}

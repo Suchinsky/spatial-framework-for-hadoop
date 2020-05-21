@@ -11,12 +11,12 @@ import com.esri.core.geometry.OperatorContains;
 import com.esri.core.geometry.OperatorSimpleRelation;
 import com.esri.core.geometry.Geometry.GeometryAccelerationDegree;
 import com.esri.core.geometry.ogc.OGCGeometry;
-
+import org.apache.hadoop.hive.ql.exec.UDF;
 /**
  * Abstract class that all simple relational tests (contains, touches, ...) extend from
  *
  */
-public abstract class ST_GeometryRelational extends GenericUDF {
+public abstract class ST_GeometryRelational extends UDF {
 	private static Logger LOG = Logger.getLogger(ST_GeometryRelational.class);
 	
 	private static final int NUM_ARGS = 2;
@@ -39,7 +39,7 @@ public abstract class ST_GeometryRelational extends GenericUDF {
 	 */
 	protected abstract OperatorSimpleRelation getRelationOperator();
 	
-	@Override
+
 	public ObjectInspector initialize(ObjectInspector[] OIs)
 			throws UDFArgumentException {
 
@@ -63,29 +63,10 @@ public abstract class ST_GeometryRelational extends GenericUDF {
 		return PrimitiveObjectInspectorFactory.javaBooleanObjectInspector;
 	}
 	
-	@Override
-	public Object evaluate(DeferredObject[] args) throws HiveException {
-		
-		OGCGeometry geom1 = geomHelper1.getGeometry(args);
-		OGCGeometry geom2 = geomHelper2.getGeometry(args);
-		
-		if (geom1 == null || geom2 == null) {
-			return false;
-		}
 
-		if (firstRun && geomHelper1.isConstant()) {
-			
-			// accelerate geometry 1 for quick relation operations since it is constant
-			geom1IsAccelerated = opSimpleRelation.accelerateGeometry(geom1.getEsriGeometry(), 
-					geom1.getEsriSpatialReference(), GeometryAccelerationDegree.enumMedium);
-		}
 
-		firstRun = false;
-		
-		return opSimpleRelation.execute(geom1.getEsriGeometry(), geom2.getEsriGeometry(), geom1.getEsriSpatialReference(), null);
-	}
 
-	@Override
+
 	public void close() {
 		if (geom1IsAccelerated && geomHelper1 != null && geomHelper1.getConstantGeometry() != null) {
 			OperatorContains.deaccelerateGeometry(geomHelper1.getConstantGeometry().getEsriGeometry());

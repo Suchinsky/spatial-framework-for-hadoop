@@ -20,7 +20,7 @@ public class ST_Overlaps extends ST_GeometryRelational {
 		return OperatorOverlaps.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s overlaps %s", args[0], args[1]);
 	}

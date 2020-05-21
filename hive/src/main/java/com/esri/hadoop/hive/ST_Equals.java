@@ -19,7 +19,7 @@ public class ST_Equals extends ST_GeometryRelational {
 		return OperatorEquals.local();
 	}
 
-	@Override
+
 	public String getDisplayString(String[] args) {
 		return String.format("returns true if %s equals %s", args[0], args[1]);
 	}
