@@ -1,19 +1,19 @@
 package com.esri.hadoop.hive;
 
-        import com.esri.core.geometry.*;
-        import com.esri.core.geometry.ogc.OGCGeometry;
-        import com.esri.hadoop.hive.ST_Point;
-        import org.apache.hadoop.hive.ql.exec.Description;
-        import org.apache.hadoop.hive.ql.exec.UDF;
-        import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
-        import org.apache.hadoop.hive.ql.udf.UDFType;
+import com.esri.core.geometry.*;
+import com.esri.core.geometry.ogc.OGCGeometry;
+import com.esri.hadoop.hive.ST_Point;
+import org.apache.hadoop.hive.ql.exec.Description;
+import org.apache.hadoop.hive.ql.exec.UDF;
+import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
+import org.apache.hadoop.hive.ql.udf.UDFType;
 
-        import org.apache.hadoop.hive.serde2.io.DoubleWritable;
-        import org.apache.hadoop.io.BytesWritable;
-        import org.apache.hadoop.io.Text;
+import org.apache.hadoop.hive.serde2.io.DoubleWritable;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.Text;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by SuchinskyMSI on 2020/5/20.
@@ -32,21 +32,19 @@ public class DouglasPeucker extends UDF {
         return OperatorContains.local();
     }
 
-    public  String  evaluate(Text trajectory_points){
-        List<ZCPoint>  points = GetPoint(trajectory_points);
-        List<ZCPoint>  result = DoDouglasPeucker(points, 1);
+    public String evaluate(Text trajectory_points) {
+        List<ZCPoint> points = GetPoint(trajectory_points);
+        List<ZCPoint> result = DoDouglasPeucker(points, 1);
         return GetResString(result);
 
     }
 
-    public  String  evaluate(Text trajectory_points,String epsilon){
-        List<ZCPoint>  points = GetPoint(trajectory_points);
-        List<ZCPoint>  result = DoDouglasPeucker(points, Integer.parseInt(epsilon));
+    public String evaluate(Text trajectory_points, String epsilon) {
+        List<ZCPoint> points = GetPoint(trajectory_points);
+        List<ZCPoint> result = DoDouglasPeucker(points, Integer.parseInt(epsilon));
         return GetResString(result);
 
     }
-
-
 
 
     public List<ZCPoint> DoDouglasPeucker(List<ZCPoint> points, int epsilon) {
@@ -96,14 +94,14 @@ public class DouglasPeucker extends UDF {
     }
 
 
-    public  List<ZCPoint> GetPoint(Text trajectory_points){
+    public List<ZCPoint> GetPoint(Text trajectory_points) {
         String tPoints = trajectory_points.toString();
-        tPoints=tPoints.replace(" ", "");
+        tPoints = tPoints.replace(" ", "");
         String[] strArr = tPoints.split(",");
 
         List<ZCPoint> origins = new ArrayList<ZCPoint>();
 
-        for(int i=0; i<strArr.length; ++i){
+        for (int i = 0; i < strArr.length; ++i) {
             String[] strPoints = strArr[i].split("\\^");
             double lng = Double.valueOf(strPoints[0].toString());
             double lat = Double.valueOf(strPoints[1].toString());
@@ -113,17 +111,16 @@ public class DouglasPeucker extends UDF {
         return origins;
     }
 
-    public String GetResString(List<ZCPoint> results){
+    public String GetResString(List<ZCPoint> results) {
 
-        StringBuilder strRes =  new StringBuilder();
+        StringBuilder strRes = new StringBuilder();
 
         char seperator = ',';
-        for(int i=0; i<results.size(); i++){
-            if (i==results.size()-1){
-                strRes.append(results.get(i).lng+"^"+ results.get(i).lat);
-            }
-            else{
-                strRes.append(results.get(i).lng+"^"+ results.get(i).lat);
+        for (int i = 0; i < results.size(); i++) {
+            if (i == results.size() - 1) {
+                strRes.append(results.get(i).lng + "^" + results.get(i).lat);
+            } else {
+                strRes.append(results.get(i).lng + "^" + results.get(i).lat);
                 strRes.append(seperator);
 
             }
@@ -132,21 +129,21 @@ public class DouglasPeucker extends UDF {
 
     }
 
-    public  double distToSegment(ZCPoint p, ZCPoint s, ZCPoint e){
-        double AB = distance(s,e);
-        double CB = distance(p,e);
-        double CA = distance(p,s);
+    public double distToSegment(ZCPoint p, ZCPoint s, ZCPoint e) {
+        double AB = distance(s, e);
+        double CB = distance(p, e);
+        double CA = distance(p, s);
 
         // Helen Methods
         double c = (CB + CA + AB) / 2;
         double S = Math.sqrt(c * (c - CB) * (c - CA) * (c - AB));
 
-        return 2*S/AB;
+        return 2 * S / AB;
 
     }
 
 
-    public double distance(ZCPoint p1, ZCPoint p2){
+    public double distance(ZCPoint p1, ZCPoint p2) {
         double lat1 = p1.lat;
         double lng1 = p1.lng;
 

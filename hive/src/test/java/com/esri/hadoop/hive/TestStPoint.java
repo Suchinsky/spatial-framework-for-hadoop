@@ -31,16 +31,18 @@ public class TestStPoint {
 		//String a ="{\"rings\":[[[121.84554066317729,29.943621026512226],[121.84816460317998,29.942900289522555],[121.84756792774174,29.941137538316227],[121.84497084322214,29.941816484681695],[121.84554066317729,29.943621026512226]]]}";
 
 		//String a="polygon ((0 0, 8 0, 0 8, 0 0), (1 1, 1 5, 5 1, 1 1))";
-		Text my111=new Text(xx);
-
+		Text my111=new Text(a);
+		BytesWritable my2222=new BytesWritable(a.getBytes());
 
 
 		//ST_Contains suchTest=new ST_Contains();
 		//suchTest.evaluate(my111,121.8460,29.9430);
 
-		DouglasPeucker suchTest=new DouglasPeucker();
+		//DouglasPeucker suchTest=new DouglasPeucker();
+		//String my=suchTest.evaluate(my111,"2");
 
-		String my=suchTest.evaluate(my111,"2");
+		RoadDirection suchTest=new RoadDirection();
+		Double my=suchTest.evaluate(my111);
 
 		DoubleWritable dwx = stX.evaluate(bwGeom);
 		DoubleWritable dwy = stY.evaluate(bwGeom);
